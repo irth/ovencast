@@ -1,0 +1,4 @@
+[submodule "OvenMediaEngine"]
+	path = OvenMediaEngine
+	url = https://github.com/AirenSoft/OvenMediaEngine
+	branch = release
