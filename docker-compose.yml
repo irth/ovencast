@@ -1,0 +1,10 @@
+services:
+  ome:
+    image: irth7/ovenmediaengine:v0.14.18
+    ports:
+      - 1935:1935
+    volumes:
+      - ./ome_conf:/opt/ovenmediaengine/bin/origin_conf
+  control:
+    build: ./control
+
