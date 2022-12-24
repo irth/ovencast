@@ -1,0 +1,3 @@
+control/control
+ome_conf/*
+!ome_conf/Server.xml
