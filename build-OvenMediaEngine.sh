@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 DOCKER_ORG="${DOCKER_ORG:-irth7}"
-version="$(cd OvenMediaEngine; git describe --tags)"
+version="$(
+    cd OvenMediaEngine
+    git describe --tags
+)"
 
 docker buildx build \
     --push \

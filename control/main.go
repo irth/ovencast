@@ -106,9 +106,7 @@ func main() {
 			res.Encode(WebhookResponse{Allowed: false})
 		}
 
-		u.Path = "/app/stream"
-		log.Println(u.String(), req)
-
+		u.Path = "/live/stream"
 		res.Encode(WebhookResponse{
 			Allowed: true,
 			NewURL:  u.String(),

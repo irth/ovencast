@@ -3,6 +3,15 @@ services:
     image: irth7/ovenmediaengine:v0.14.18
     ports:
       - 1935:1935
+      - 3333:3333
+      - 3334:3334
+      - 3478:3478
+      - 10000:10000/udp
+      - 10001:10001/udp
+      - 10002:10002/udp
+      - 10003:10003/udp
+      - 10004:10004/udp
+      - 10005:10005/udp
     volumes:
       - ./ome_conf:/opt/ovenmediaengine/bin/origin_conf
   control:
