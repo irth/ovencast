@@ -39,6 +39,10 @@ func main() {
 	var lock sync.Mutex
 	currentStreamKey := ""
 
+	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+		// return http 200 ok
+	})
+
 	http.HandleFunc("/setStreamKey", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			w.WriteHeader(http.StatusMethodNotAllowed)

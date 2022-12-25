@@ -24,6 +24,7 @@ func main() {
 	staticHandler := http.FileServer(http.FS(staticFS))
 
 	api := NewAPI()
+	go api.Run()
 
 	r.Mount("/api", api.Router())
 	r.Mount("/", staticHandler)
