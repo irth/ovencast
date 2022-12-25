@@ -16,4 +16,8 @@ services:
       - ./ome_conf:/opt/ovenmediaengine/bin/origin_conf
   control:
     build: ./control
+  web:
+    build: ./web
+    ports:
+      - 8080:8080
 
