@@ -1,8 +1,6 @@
 package main
 
 import (
-	"embed"
-	"io/fs"
 	"log"
 	"net/http"
 	"os"
@@ -10,9 +8,6 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
-
-//go:embed static/*
-var static embed.FS
 
 func main() {
 	listenAddr, ok := os.LookupEnv("OVENCAST_WEB_ADDR")
@@ -28,11 +23,8 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-	staticFS, err := fs.Sub(static, "static")
-	if err != nil {
-		log.Fatalf("loading static files: %s", err)
-	}
-	staticHandler := http.FileServer(http.FS(staticFS))
+	staticFS := http.Dir("./static")
+	staticHandler := http.FileServer(staticFS)
 
 	api, err := NewAPI(configPath)
 	if err != nil {
