@@ -3,22 +3,21 @@ services:
     image: irth7/ovenmediaengine:v0.14.18
     ports:
       - 1935:1935
-      - 3333:3333
-      - 3334:3334
       - 3478:3478
-      - 10000:10000/udp
-      - 10001:10001/udp
-      - 10002:10002/udp
-      - 10003:10003/udp
-      - 10004:10004/udp
-      - 10005:10005/udp
+      - 10000-10005:10000-10005/udp
     volumes:
       - ./data/ome:/opt/ovenmediaengine/bin/origin_conf
-      - ./ome_conf/Server.xml:/opt/ovenmediaengine/bin/origin_conf/Server.xml
+      - ./ome_conf/Server.xml:/opt/ovenmediaengine/bin/origin_conf/Server.xml:ro
+  proxy:
+    image: nginx:alpine
+    volumes:
+      - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./web/static:/usr/share/nginx/html
+    ports:
+      - 6213:80
+
   web:
     build: ./web
-    ports:
-      - 8080:8080
     volumes:
       - ./data/web:/data
       - ./web/static:/static

@@ -30,14 +30,12 @@
 		<Publishers>
 			<LLHLS>
 				<Port>${env:OME_LLHLS_STREAM_PORT:3333}</Port>
-				<TLSPort>${env:OME_LLHLS_STREAM_TLS_PORT:3334}</TLSPort>
 				<WorkerCount>1</WorkerCount>
 			</LLHLS>
 
 			<WebRTC>
 				<Signalling>
 					<Port>${env:OME_WEBRTC_SIGNALLING_PORT:3333}</Port>
-					<TLSPort>${env:OME_WEBRTC_SIGNALLING_TLS_PORT:3334}</TLSPort>
 					<WorkerCount>1</WorkerCount>
 				</Signalling>
 				<IceCandidates>
@@ -69,13 +67,6 @@
 				<Names>
 					<Name>*</Name>
 				</Names>
-				<!--
-				<TLS>
-					<CertPath>path/to/file.crt</CertPath>
-					<KeyPath>path/to/file.key</KeyPath>
-					<ChainCertPath>path/to/file.crt</ChainCertPath>
-				</TLS>
-				-->
 			</Host>
 
 			<Applications>
