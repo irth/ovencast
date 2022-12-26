@@ -13,11 +13,12 @@ services:
       - 10004:10004/udp
       - 10005:10005/udp
     volumes:
-      - ./ome_conf:/opt/ovenmediaengine/bin/origin_conf
-  control:
-    build: ./control
+      - ./data/ome:/opt/ovenmediaengine/bin/origin_conf
+      - ./ome_conf/Server.xml:/opt/ovenmediaengine/bin/origin_conf/Server.xml
   web:
     build: ./web
     ports:
       - 8080:8080
+    volumes:
+      - ./data/web:/data
 

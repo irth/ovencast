@@ -56,7 +56,7 @@
 			<!--Distribution is a value that can be used when grouping the same vhost distributed across multiple servers. This value is output to the events log, so you can use it to aggregate statistics. -->
 			<Distribution>ovenmediaengine.com</Distribution>
             <AdmissionWebhooks>
-                <ControlServerUrl>http://control:9595/admission</ControlServerUrl>
+                <ControlServerUrl>http://web:8080/api/admission</ControlServerUrl>
                 <SecretKey>${env:OME_WEBHOOK_SECRET:1234}</SecretKey>
                 <Timeout>3000</Timeout>
                 <Enables>

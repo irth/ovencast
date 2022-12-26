@@ -1,3 +1,2 @@
-control/control
-ome_conf/*
-!ome_conf/Server.xml
+/web/web
+/data
