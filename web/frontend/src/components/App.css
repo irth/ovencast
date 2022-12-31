@@ -1,0 +1,66 @@
+.appLayout {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto 15em;
+  grid-template-rows: 3em auto;
+  grid-template-areas:
+    "nav nav"
+    "streamColumn chat";
+}
+
+.appLayout > .nav {
+  grid-area: nav;
+}
+
+.appLayout > .chat {
+  grid-area: chat;
+  overflow-y: hidden;
+}
+
+.appLayout > .streamColumn {
+  grid-area: streamColumn;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto 3em minmax(3em, 1fr);
+}
+
+.appLayout > .streamColumn > .player {
+  /* this makes the player shrink its height when the grid tells it to,
+   * apparently */
+  overflow-y: hidden;
+}
+
+@media (orientation: portrait) {
+  .appLayout {
+    grid-template-columns: auto;
+    grid-template-rows: 3em auto minmax(5em, 1fr);
+    grid-template-areas:
+      "nav"
+      "streamColumn"
+      "chat";
+  }
+
+  .appLayout > .streamColumn {
+    grid-template-rows: auto 3em 0;
+    overflow-y: hidden;
+  }
+}
+
+/* debug */
+.streamDescription,
+.streamDescriptionInner {
+  background: red;
+}
+
+.streamInfo {
+  background: green;
+}
+
+.nav {
+  background: violet;
+}

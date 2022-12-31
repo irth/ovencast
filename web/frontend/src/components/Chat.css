@@ -1,0 +1,37 @@
+.chatComponent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: blue;
+}
+
+.chatComponent .chatHistory {
+  overflow-y: auto;
+  flex-grow: 2;
+}
+
+.chatComponent .chatInput {
+  flex-shrink: 0;
+  display: flex;
+}
+
+.chatComponent .chatInput input {
+  display: block;
+  border: none;
+  margin: 0;
+  padding: 1em;
+  flex-grow: 2;
+  min-width: 1em;
+}
+
+.chatComponent .chatInput input:focus {
+  outline: none;
+}
+
+.chatComponent .chatInput button {
+  border: none;
+  margin: 0;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  flex-shrink: 0;
+}

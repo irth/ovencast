@@ -1,7 +1,10 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 
-import Player from "./components/Player";
+import "@fortawesome/fontawesome-free/js/all.js";
+import "@fortawesome/fontawesome-free/css/all.css";
+
+import App from "./components/App";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -9,8 +12,7 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <div>
-      <Player />
-      what5
+      <App />
     </div>
   </React.StrictMode>
 );
