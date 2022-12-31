@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <Server version="8">
 	<Name>OvenMediaEngine</Name>
@@ -51,18 +51,20 @@
 	<VirtualHosts>
 		<VirtualHost>
 			<Name>default</Name>
-			<!--Distribution is a value that can be used when grouping the same vhost distributed across multiple servers. This value is output to the events log, so you can use it to aggregate statistics. -->
+			<!--Distribution is a value that can be used when grouping the same vhost distributed
+			across multiple servers. This value is output to the events log, so you can use it to
+			aggregate statistics. -->
 			<Distribution>ovenmediaengine.com</Distribution>
-            <AdmissionWebhooks>
-                <ControlServerUrl>${env:OME_WEBHOOK_URL:http://web:8080/api/admission}</ControlServerUrl>
-                <SecretKey>${env:OME_WEBHOOK_SECRET:1234}</SecretKey>
-                <Timeout>3000</Timeout>
-                <Enables>
-                    <Providers>rtmp</Providers>
-                    <Publishers>webrtc,llhls</Publishers>
-                </Enables>
-            </AdmissionWebhooks>
-			
+			<AdmissionWebhooks>
+				<ControlServerUrl>${env:OME_WEBHOOK_URL:http://web:8080/api/admission}</ControlServerUrl>
+				<SecretKey>${env:OME_WEBHOOK_SECRET:1234}</SecretKey>
+				<Timeout>3000</Timeout>
+				<Enables>
+					<Providers>rtmp</Providers>
+					<Publishers>webrtc,llhls</Publishers>
+				</Enables>
+			</AdmissionWebhooks>
+
 			<Host>
 				<Names>
 					<Name>*</Name>
@@ -79,7 +81,61 @@
 							<Name>bypass_stream</Name>
 							<OutputStreamName>${OriginStreamName}</OutputStreamName>
 							<!-- TODO: configure output formats properly -->
+							<Playlist>
+								<Name>For WebRTC</Name>
+								<FileName>webrtc_abr</FileName>
+								<Options> <!-- Optinal -->
+									<WebRtcAutoAbr>true</WebRtcAutoAbr>
+								</Options>
+								<Rendition>
+									<Name>Source</Name>
+									<Video>bypass_video</Video>
+									<Audio>opus</Audio>
+								</Rendition>
+								<Rendition>
+									<Name>1080p</Name>
+									<Video>video_1080</Video>
+									<Audio>opus</Audio>
+								</Rendition>
+								<Rendition>
+									<Name>720p</Name>
+									<Video>video_720</Video>
+									<Audio>opus</Audio>
+								</Rendition>
+							</Playlist>
 
+							<Playlist>
+								<Name>For LLHLS</Name>
+								<FileName>llhls_abr</FileName>
+								<Options> <!-- Optinal -->
+									<WebRtcAutoAbr>true</WebRtcAutoAbr>
+								</Options>
+								<Rendition>
+									<Name>Source</Name>
+									<Video>bypass_video</Video>
+									<Audio>bypass_audio</Audio>
+								</Rendition>
+								<Rendition>
+									<Name>1080p</Name>
+									<Video>video_1080</Video>
+									<Audio>bypass_audio</Audio>
+								</Rendition>
+								<Rendition>
+									<Name>720p</Name>
+									<Video>video_720</Video>
+									<Audio>bypass_audio</Audio>
+								</Rendition>
+							</Playlist>
+
+							<Playlist>
+								<Name>1080p LL-HLS</Name>
+								<FileName>llhls</FileName>
+								<Rendition>
+									<Name>HD</Name>
+									<Video>video_1080</Video>
+									<Audio>bypass_audio</Audio>
+								</Rendition>
+							</Playlist>
 							<Encodes>
 								<Audio>
 									<Name>bypass_audio</Name>
@@ -90,19 +146,19 @@
 									<Bypass>true</Bypass>
 								</Video>
 								<Audio>
+									<Name>opus</Name>
 									<Codec>opus</Codec>
 									<Bitrate>128000</Bitrate>
 									<Samplerate>48000</Samplerate>
 									<Channel>2</Channel>
 								</Audio>
-								<!-- 							
 								<Video>
-									<Name>video_1280</Name>
+									<Name>video_1080</Name>
 									<Codec>h264</Codec>
 									<Bitrate>5024000</Bitrate>
 									<Framerate>30</Framerate>
 									<Width>1920</Width>
-									<Height>1280</Height>
+									<Height>1080</Height>
 									<Preset>faster</Preset>
 								</Video>
 								<Video>
@@ -114,8 +170,8 @@
 									<Height>720</Height>
 									<Preset>faster</Preset>
 								</Video>
-								-->
 							</Encodes>
+
 						</OutputProfile>
 					</OutputProfiles>
 					<Providers>
@@ -133,7 +189,8 @@
 						<LLHLS>
 							<OriginMode>false</OriginMode>
 							<ChunkDuration>0.5</ChunkDuration>
-							<!-- PartHoldBack SHOULD be at least three times the Part Target Duration -->
+							<!-- PartHoldBack SHOULD be at least three times the Part Target
+							Duration -->
 							<PartHoldBack>1.5</PartHoldBack>
 							<SegmentDuration>6</SegmentDuration>
 							<SegmentCount>10</SegmentCount>
