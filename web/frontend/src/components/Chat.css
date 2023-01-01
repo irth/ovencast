@@ -2,12 +2,12 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background: blue;
 }
 
 .chatComponent .chatHistory {
   overflow-y: auto;
   flex-grow: 2;
+  padding: 0.5em;
 }
 
 .chatComponent .chatInput {
@@ -22,6 +22,8 @@
   padding: 1em;
   flex-grow: 2;
   min-width: 1em;
+  background: #554068;
+  color: #f0d9ff;
 }
 
 .chatComponent .chatInput input:focus {
@@ -34,4 +36,6 @@
   padding-left: 1.2em;
   padding-right: 1.2em;
   flex-shrink: 0;
+  background: #554068;
+  color: #f0d9ff;
 }

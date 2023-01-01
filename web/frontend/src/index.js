@@ -3,6 +3,9 @@ import { createRoot } from "react-dom/client";
 
 import "@fortawesome/fontawesome-free/js/all.js";
 import "@fortawesome/fontawesome-free/css/all.css";
+import "@fontsource/lato";
+
+import "./index.css";
 
 import App from "./components/App";
 

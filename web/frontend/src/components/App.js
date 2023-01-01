@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import Chat from "./Chat";
 import Player from "./Player";
+import StreamInfo from "./StreamInfo";
 
 export default function App() {
   return (
@@ -9,7 +10,11 @@ export default function App() {
       <div className="nav">nav</div>
       <div className="streamColumn">
         <Player className="player" />
-        <div className="streamInfo">hello2</div>
+        <StreamInfo
+          className="streamInfo"
+          title="Test streama"
+          subtitle="This is just a test stream"
+        />
         <div className="streamDescription">
           <div className="streamDescriptionInner">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut viverra

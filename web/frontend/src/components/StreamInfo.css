@@ -1,0 +1,20 @@
+.streamInfoComponent {
+  padding: 0.5em;
+
+  background: #554068;
+  color: white;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  z-index: 999;
+}
+.streamInfoComponent > .title {
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 0.3em;
+}
+
+.streamInfoComponent > .subtitle {
+  font-weight: normal;
+  font-size: 1em;
+  padding: 0.3em;
+}

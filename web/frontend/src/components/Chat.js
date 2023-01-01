@@ -53,7 +53,7 @@ export default function Chat({ ...rest }) {
         tempor sem et, tincidunt nunc.
       </div>
       <div className="chatInput">
-        <input type="text"></input>
+        <input placeholder="Enter chat message..." type="text"></input>
         <button>
           <i className="fa-solid fa-paper-plane"></i>
         </button>
