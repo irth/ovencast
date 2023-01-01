@@ -46,7 +46,7 @@
   }
 
   .appLayout > .streamColumn {
-    grid-template-rows: auto 3em 0;
+    grid-template-rows: auto auto 0;
     overflow-y: hidden;
   }
 }
