@@ -39,3 +39,29 @@
   background: #554068;
   color: #f0d9ff;
 }
+
+.chatComponent > .chatHistory {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: auto 1fr;
+  gap: 0.3em 0em;
+}
+
+.chatComponent > .chatHistory > .spacer {
+  grid-area: 1 / 1 / 2 / 3;
+}
+
+.chatComponent > .chatHistory > .messageAuthor {
+  text-align: right;
+  font-weight: bold;
+}
+
+.chatComponent > .chatHistory > .messageAuthor {
+  color: #e8c5fd;
+}
+.chatComponent > .chatHistory > .messageAuthor::after {
+  content: ":\00a0";
+}
+.chatComponent > .chatHistory > .messageAuthor:nth-of-type(4n + 2) {
+  color: #d48fff;
+}
