@@ -6,7 +6,7 @@
   height: 100%;
   display: grid;
   grid-template-columns: auto 18em;
-  grid-template-rows: 3em auto;
+  grid-template-rows: auto auto;
   grid-template-areas:
     "nav nav"
     "streamColumn chat";

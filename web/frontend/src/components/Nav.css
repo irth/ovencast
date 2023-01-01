@@ -1,0 +1,23 @@
+.navComponent {
+  padding: 0.7em;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "brand . nav";
+  align-items: baseline;
+}
+
+.navComponent > .brand {
+  grid-area: brand;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.navComponent > .nav {
+  grid-area: nav;
+  font-size: 1em;
+}
+
+.navComponent > .nav > a {
+  color: white;
+}

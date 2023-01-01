@@ -1,13 +1,14 @@
 import React from "react";
 import "./App.css";
 import Chat from "./Chat";
+import Nav from "./Nav";
 import Player from "./Player";
 import StreamInfo from "./StreamInfo";
 
 export default function App() {
   return (
     <div className="appLayout">
-      <div className="nav">nav</div>
+      <Nav className="nav" brand="OvenCast" />
       <div className="streamColumn">
         <Player className="player" />
         <StreamInfo
