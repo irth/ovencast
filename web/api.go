@@ -53,7 +53,7 @@ func (a *API) Router() http.Handler {
 type Empty interface{}
 
 type Response[T any] struct {
-	OK       bool   `json:""`
+	OK       bool   `json:"ok"`
 	Error    string `json:"error,omitempty"`
 	Response T      `json:"response,omitempty"`
 }
