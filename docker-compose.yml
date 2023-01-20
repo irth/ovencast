@@ -8,6 +8,8 @@ services:
     volumes:
       - ./data/ome:/opt/ovenmediaengine/bin/origin_conf
       - ./ome_conf/Server.xml:/opt/ovenmediaengine/bin/origin_conf/Server.xml:ro
+    environment:
+      - OME_API_TOKEN=papiez
   proxy:
     image: nginx:alpine
     volumes:
@@ -21,4 +23,3 @@ services:
     volumes:
       - ./data/web:/data
       - ./web/frontend/dist:/static
-

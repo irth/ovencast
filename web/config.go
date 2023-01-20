@@ -19,6 +19,11 @@ type Config struct {
 	StreamKey    string `yaml:"stream-key"`
 	PasswordHash string `yaml:"password-hash"`
 
+	OME struct {
+		APIAddr  string `yaml:"api-addr"`
+		APIToken string `yaml:"api-token"`
+	} `yaml:"ome"`
+
 	sync.RWMutex `yaml:"-"`
 }
 
@@ -61,6 +66,9 @@ func (c *Config) Initialize() error {
 	if err := c.SetPassword("admin"); err != nil {
 		return err
 	}
+
+	c.OME.APIAddr = "http://ome:8081"
+	c.OME.APIToken = "papiez"
 
 	return c.Save()
 }

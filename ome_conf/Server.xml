@@ -19,7 +19,19 @@
 		</LLHLS>
 	</Modules>
 
+	<Managers>
+		<API>
+			<AccessToken>${env:OME_API_TOKEN}</AccessToken>
+		</API>
+	</Managers>
+
 	<Bind>
+		<Managers>
+			<API>
+				<Port>8081</Port>
+			</API>
+		</Managers>
+
 		<Providers>
 			<RTMP>
 				<Port>${env:OME_RTMP_PROV_PORT:1935}</Port>
