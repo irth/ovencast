@@ -2,7 +2,7 @@ package ws
 
 import "fmt"
 
-type CommandPallete map[string]FromRawable
+type CommandPalette map[string]FromRawable
 
 func (c *CommandDecoder) Decode() (Errable, error) {
 	rawCommand := RawCommand{}
@@ -30,5 +30,5 @@ func (c *CommandDecoder) Decode() (Errable, error) {
 
 type CommandDecoder struct {
 	wsconn  *Conn
-	palette CommandPallete
+	palette CommandPalette
 }

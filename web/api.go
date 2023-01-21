@@ -16,7 +16,7 @@ type API struct {
 
 	OME *ome.API
 
-	wsCommandPalette ws.CommandPallete
+	wsCommandPalette ws.CommandPalette
 }
 
 func NewAPI(configPath string) (*API, error) {

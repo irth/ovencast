@@ -18,7 +18,7 @@ type PingResponse struct {
 
 type Ping = ws.Command[PingCommand, PingResponse]
 
-var websocketCommands = ws.CommandPallete{
+var websocketCommands = ws.CommandPalette{
 	"ping": Ping{},
 }
 
@@ -30,7 +30,6 @@ type HelloMessage struct {
 func (h HelloMessage) Type() string { return "hello" }
 
 func (a *API) Websocket(w http.ResponseWriter, r *http.Request) {
-	defer log.Println("dupa")
 	conn, err := ws.NewConn(w, r, websocketCommands)
 	if err != nil {
 		w.Header().Add("Content-Type", "application/json")

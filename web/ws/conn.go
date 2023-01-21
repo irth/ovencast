@@ -23,7 +23,7 @@ type Conn struct {
 	CommandDecoder
 }
 
-func NewConn(w http.ResponseWriter, r *http.Request, palette CommandPallete) (*Conn, error) {
+func NewConn(w http.ResponseWriter, r *http.Request, palette CommandPalette) (*Conn, error) {
 	conn, _, _, err := ws.UpgradeHTTP(r, w)
 
 	if err != nil {
