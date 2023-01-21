@@ -5,10 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gobwas/ws"
+	"github.com/irth/ovencast/web/ws"
 )
-
-type Ping = WSCommand[PingCommand, PingResponse]
 
 type PingCommand struct {
 	Ping string `json:"ping"`
@@ -18,9 +16,22 @@ type PingResponse struct {
 	Pong string `json:"pong"`
 }
 
-func (a *API) Websocket(w http.ResponseWriter, r *http.Request) {
-	conn, _, _, err := ws.UpgradeHTTP(r, w)
+type Ping = ws.Command[PingCommand, PingResponse]
 
+var websocketCommands = ws.CommandPallete{
+	"ping": Ping{},
+}
+
+type HelloMessage struct {
+	Version string
+	Online  bool
+}
+
+func (h HelloMessage) Type() string { return "hello" }
+
+func (a *API) Websocket(w http.ResponseWriter, r *http.Request) {
+	defer log.Println("dupa")
+	conn, err := ws.NewConn(w, r, websocketCommands)
 	if err != nil {
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(500)
@@ -28,12 +39,23 @@ func (a *API) Websocket(w http.ResponseWriter, r *http.Request) {
 			OK:    false,
 			Error: err.Error(),
 		})
+		return
+	}
+	defer conn.Close()
+
+	online, _ := a.isOnline()
+
+	err = conn.SendMessage(HelloMessage{
+		Version: "0.0.1",
+		Online:  online,
+	})
+	if err != nil {
+		log.Printf("ws sendmessage: %s", err)
+		return
 	}
 
-	wsconn := NewWSConn(conn)
-
 	for {
-		cmd, err := wsconn.DecodeCommand()
+		cmd, err := conn.Decode()
 		if err != nil {
 			log.Printf("ws: decode command: %s", err)
 			return
@@ -41,12 +63,11 @@ func (a *API) Websocket(w http.ResponseWriter, r *http.Request) {
 
 		switch cmd := cmd.(type) {
 		case Ping:
-			cmd.Reply(PingResponse{
+			cmd.OK(PingResponse{
 				Pong: cmd.Request.Ping,
 			})
 		default:
-			cmd.Error("unimplemented command")
+			cmd.Err("unimplemented command")
 		}
 	}
-
 }

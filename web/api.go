@@ -8,12 +8,15 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/irth/ovencast/web/ome"
+	"github.com/irth/ovencast/web/ws"
 )
 
 type API struct {
 	*Config
 
 	OME *ome.API
+
+	wsCommandPalette ws.CommandPallete
 }
 
 func NewAPI(configPath string) (*API, error) {
@@ -46,7 +49,9 @@ func (a *API) Router() http.Handler {
 		fmt.Fprintf(w, "hello from ovencast api :)\n")
 	})
 	r.Get("/online", a.Online)
+
 	r.Get("/websocket", a.Websocket)
+
 	r.Post("/admission", a.AdmissionWebhook)
 	return r
 }
@@ -63,8 +68,12 @@ type StreamOnlineResponse struct {
 	Online bool `json:"online"`
 }
 
+func (a *API) isOnline() (bool, error) {
+	return a.OME.StreamExists("default", "live", "stream")
+}
+
 func (a *API) Online(w http.ResponseWriter, r *http.Request) {
-	online, err := a.OME.StreamExists("default", "live", "stream")
+	online, err := a.isOnline()
 
 	w.Header().Add("Content-Type", "application/json")
 	if err != nil {
