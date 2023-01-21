@@ -10,6 +10,7 @@ services:
       - ./ome_conf/Server.xml:/opt/ovenmediaengine/bin/origin_conf/Server.xml:ro
     environment:
       - OME_API_TOKEN=papiez
+
   proxy:
     image: nginx:alpine
     volumes:
@@ -17,6 +18,9 @@ services:
       - ./web/frontend/dist:/usr/share/nginx/html
     ports:
       - 6213:80
+    depends_on:
+      - web
+      - ome
 
   web:
     build: ./web

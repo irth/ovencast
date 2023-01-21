@@ -46,6 +46,7 @@ func (a *API) Router() http.Handler {
 		fmt.Fprintf(w, "hello from ovencast api :)\n")
 	})
 	r.Get("/online", a.Online)
+	r.Get("/websocket", a.Websocket)
 	r.Post("/admission", a.AdmissionWebhook)
 	return r
 }

@@ -21,10 +21,14 @@ func NewAPI(addr string, token string) (*API, error) {
 		Token: token,
 	}
 
-	_, err := ome.Stats()
-	if err != nil {
-		return nil, fmt.Errorf("OMEAPI.Stats: %w", err)
-	}
+	// Disabled this check - we instantiate the API when the web service starts,
+	// which might be before OME is ready. We want the frontend to work at that
+	// point anyway.
+
+	// _, err := ome.Stats()
+	// if err != nil {
+	// 	return nil, fmt.Errorf("OMEAPI.Stats: %w", err)
+	// }
 
 	return &ome, nil
 }
