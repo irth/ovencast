@@ -6,12 +6,15 @@ import (
 	"testing"
 	"time"
 
+	"github.com/irth/ovencast/web/chanutil"
 	"github.com/stretchr/testify/require"
 )
 
 func testctx() (context.Context, context.CancelFunc) {
 	return context.WithTimeout(context.Background(), time.Second*1)
 }
+
+// TODO: test contexts
 
 func TestRequestCanOnlyBeAnsweredOnce(t *testing.T) {
 	ctx, cancel := testctx()
@@ -63,12 +66,12 @@ func TestRequestCanOnlyBeAnsweredOnce(t *testing.T) {
 	}
 
 	checkErrors := func(errCh chan error) {
-		testErr, err := get(ctx, errCh)
+		testErr, _, err := chanutil.Get(ctx, errCh)
 		require.NoError(t, err)
 		require.NotNil(t, testErr)
 		require.Nil(t, *testErr)
 
-		testErr, err = get(ctx, errCh)
+		testErr, _, err = chanutil.Get(ctx, errCh)
 		require.NoError(t, err)
 		require.NotNil(t, testErr)
 		require.ErrorIs(t, *testErr, ErrResultSentTwice)

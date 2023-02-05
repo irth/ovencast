@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"sync"
+
+	"github.com/irth/ovencast/web/chanutil"
 )
 
 type result[T any] struct {
@@ -34,12 +36,12 @@ func sendRequest[Args any, Ret any](ctx context.Context, ch chan *request[Args, 
 	}
 
 	// put and get fail if context gets cancelled
-	err := put(ctx, ch, req)
+	err := chanutil.Put(ctx, ch, req)
 	if err != nil {
 		return nil, err
 	}
 
-	ret, err := get(ctx, req.ret)
+	ret, _, err := chanutil.Get(ctx, req.ret)
 	if err != nil {
 		return nil, err
 	}
