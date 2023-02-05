@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"sync"
+
+	"github.com/irth/ovencast/web/chanutil"
 )
 
 type _nothing struct{}
@@ -81,6 +83,10 @@ func (c *Channel[T]) Run(ctx context.Context) {
 
 func (c *Channel[T]) Ch() chan<- T {
 	return c.broadcastCh
+}
+
+func (c *Channel[T]) Broadcast(ctx context.Context, m T) error {
+	return chanutil.Put(ctx, c.broadcastCh, m)
 }
 
 func (c *Channel[T]) broadcast(m T) {
