@@ -23,33 +23,68 @@ var websocketCommands = ws.CommandPalette{
 }
 
 type HelloMessage struct {
-	Version string
-	Online  bool
+	Version string      `json:"version"`
+	State   StreamState `json:"state"`
 }
 
 func (h HelloMessage) Type() string { return "hello" }
 
+type StateMessage StreamState
+
+func (h StateMessage) Type() string { return "state" }
+
+func err500(w http.ResponseWriter, err error) {
+	log.Println("err 500: %w", err)
+	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(500)
+	json.NewEncoder(w).Encode(Response[Empty]{
+		OK:    false,
+		Error: err.Error(),
+	})
+}
+
 func (a *API) Websocket(w http.ResponseWriter, r *http.Request) {
 	conn, err := ws.NewConn(w, r, websocketCommands)
 	if err != nil {
-		w.Header().Add("Content-Type", "application/json")
-		w.WriteHeader(500)
-		json.NewEncoder(w).Encode(Response[Empty]{
-			OK:    false,
-			Error: err.Error(),
-		})
+		err500(w, err)
 		return
 	}
 	defer conn.Close()
 
-	online, _ := a.isOnline()
+	ctx := r.Context()
+
+	stateUpdates, err := a.stateUpdates.Subscribe(ctx)
+	// TODO: unsubscribe!!!
+	if err != nil {
+		err500(w, err)
+		return
+	}
+
+	go func() {
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case state := <-stateUpdates:
+				conn.SendMessage(StateMessage(state))
+			}
+		}
+	}()
+
+	state, err := a.fetchState()
+	if err != nil {
+		err500(w, err)
+		return
+	}
 
 	err = conn.SendMessage(HelloMessage{
+		// TODO: do some build magic to have git version numbers
 		Version: "0.0.1",
-		Online:  online,
+		State:   state,
 	})
+
 	if err != nil {
-		log.Printf("ws sendmessage: %s", err)
+		err500(w, err)
 		return
 	}
 
