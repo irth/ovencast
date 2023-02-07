@@ -6,6 +6,7 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"sync"
 
 	"github.com/gobwas/ws"
 	"github.com/gobwas/ws/wsutil"
@@ -21,6 +22,9 @@ type Conn struct {
 	conn net.Conn
 
 	CommandDecoder
+
+	readLock  sync.Mutex
+	writeLock sync.Mutex
 }
 
 func NewConn(w http.ResponseWriter, r *http.Request, palette CommandPalette) (*Conn, error) {
@@ -57,6 +61,9 @@ func (c *Conn) Close() error {
 }
 
 func (c *Conn) RecvRaw(obj interface{}) error {
+	c.readLock.Lock()
+	defer c.readLock.Unlock()
+
 	hdr, err := c.r.NextFrame()
 	if err != nil {
 		return fmt.Errorf("ws NextFrame: %w", err)
@@ -74,6 +81,9 @@ func (c *Conn) RecvRaw(obj interface{}) error {
 }
 
 func (c *Conn) SendRaw(obj interface{}) error {
+	c.writeLock.Lock()
+	defer c.writeLock.Unlock()
+
 	err := c.encoder.Encode(obj)
 	if err != nil {
 		return fmt.Errorf("json encode: %w", err)
