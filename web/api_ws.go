@@ -23,8 +23,7 @@ var websocketCommands = ws.CommandPalette{
 }
 
 type HelloMessage struct {
-	Version string      `json:"version"`
-	State   StreamState `json:"state"`
+	Version string `json:"version"`
 }
 
 func (h HelloMessage) Type() string { return "hello" }
@@ -71,18 +70,23 @@ func (a *API) Websocket(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 
+	err = conn.SendMessage(HelloMessage{
+		// TODO: do some build magic to have git version numbers
+		Version: "0.0.1",
+	})
+
+	if err != nil {
+		err500(w, err)
+		return
+	}
+
 	state, err := a.fetchState()
 	if err != nil {
 		err500(w, err)
 		return
 	}
 
-	err = conn.SendMessage(HelloMessage{
-		// TODO: do some build magic to have git version numbers
-		Version: "0.0.1",
-		State:   state,
-	})
-
+	err = conn.SendMessage(StateMessage(state))
 	if err != nil {
 		err500(w, err)
 		return

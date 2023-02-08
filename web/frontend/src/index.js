@@ -8,6 +8,7 @@ import "@fontsource/lato";
 import "./index.css";
 
 import App from "./components/App";
+import { APIProvider } from "./lib/api";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -15,7 +16,9 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <div>
-      <App />
+      <APIProvider url={`${location.protocol}//${location.host}/api`}>
+        <App />
+      </APIProvider>
     </div>
   </React.StrictMode>
 );

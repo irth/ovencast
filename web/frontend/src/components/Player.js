@@ -1,10 +1,11 @@
 import React from "react";
+import { StreamState } from "../lib/api";
 
 import OvenPlayer from "./OvenPlayer";
 
 export default function Player(props) {
   const host = location.host;
-  const tls = location.protocol == "https";
+  const tls = location.protocol == "https:";
   const config = {
     autoStart: true,
     autoFallback: true,
@@ -25,5 +26,16 @@ export default function Player(props) {
       maxLiveSyncPlaybackRate: 2,
     },
   };
-  return <OvenPlayer {...props} config={config} />;
+  return (
+    <StreamState>
+      {
+        ({ online }) =>
+          online ? (
+            <OvenPlayer {...props} config={config} />
+          ) : (
+            "stream offline TODO: better offline screen"
+          ) // TODO: better offline screen
+      }
+    </StreamState>
+  );
 }

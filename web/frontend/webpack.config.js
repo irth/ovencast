@@ -2,8 +2,17 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
-module.exports = {
+const dev = (conf) => {
+  console.log("USING DEV CONFIG");
+  return {
+    ...conf,
+    devtool: "inline-source-map",
+  };
+};
+
+const prod = {
   entry: "./src/index.js",
+
   module: {
     rules: [
       {
@@ -26,3 +35,5 @@ module.exports = {
     }),
   ],
 };
+
+module.exports = process.env.NODE_ENV == "production" ? prod : dev(prod);
