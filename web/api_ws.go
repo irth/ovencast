@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/irth/ovencast/web/ws"
+	"github.com/irth/wsrpc"
 )
 
 type PingCommand struct {
@@ -16,9 +16,9 @@ type PingResponse struct {
 	Pong string `json:"pong"`
 }
 
-type Ping = ws.Command[PingCommand, PingResponse]
+type Ping = wsrpc.Command[PingCommand, PingResponse]
 
-var websocketCommands = ws.CommandPalette{
+var websocketCommands = wsrpc.CommandPalette{
 	"ping": Ping{},
 }
 
@@ -43,7 +43,7 @@ func err500(w http.ResponseWriter, err error) {
 }
 
 func (a *API) Websocket(w http.ResponseWriter, r *http.Request) {
-	conn, err := ws.NewConn(w, r, websocketCommands)
+	conn, err := wsrpc.NewConn(w, r, websocketCommands)
 	if err != nil {
 		err500(w, err)
 		return
