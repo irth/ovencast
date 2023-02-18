@@ -8,7 +8,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/irth/ovencast/web/broadcast"
+	"github.com/irth/broadcast"
 	"github.com/irth/ovencast/web/ome"
 )
 
