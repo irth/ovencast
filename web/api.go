@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"sync"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/irth/ovencast/web/broadcast"
+	"github.com/irth/broadcast"
 	"github.com/irth/ovencast/web/ome"
 )
 
@@ -20,9 +21,14 @@ type API struct {
 
 	OME *ome.API
 
+	// stream state
 	state                  StreamState
 	stateUpdates           *broadcast.Channel[StreamState]
 	admissionWebhookSignal chan bool
+
+	// chat
+	nicks    map[string]struct{}
+	nickLock sync.Mutex
 }
 
 // NewAPI loads config from the specified path and instantiates the API struct.
@@ -44,6 +50,8 @@ func NewAPI(configPath string) (*API, error) {
 
 		stateUpdates:           broadcast.NewChannel[StreamState](),
 		admissionWebhookSignal: make(chan bool, 8),
+
+		nicks: make(map[string]struct{}),
 	}, nil
 }
 
