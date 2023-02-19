@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -54,18 +55,18 @@ func (a *API) Websocket(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	stateUpdates, err := a.stateUpdates.Subscribe(ctx)
-	// TODO: unsubscribe!!!
 	if err != nil {
 		err500(w, err)
 		return
 	}
+	defer stateUpdates.Unsubscribe(context.Background())
 
 	go func() {
 		for {
 			select {
 			case <-ctx.Done():
 				return
-			case state := <-stateUpdates:
+			case state := <-stateUpdates.Ch():
 				conn.SendMessage(StateMessage(state))
 			}
 		}

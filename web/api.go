@@ -57,7 +57,7 @@ func (a *API) Run() {
 	go a.runStateUpdater()
 
 	stateSub, _ := a.stateUpdates.Subscribe(context.TODO())
-	for state := range stateSub {
+	for state := range stateSub.Ch() {
 		log.Printf("state updated! %+v", state)
 	}
 }

@@ -46,7 +46,7 @@ func (c *Chat) WebsocketHandler(w http.ResponseWriter, r *http.Request) {
 		err500(w, "broadcast channel sub failed", err)
 		return
 	}
-	// TODO: implement unsubs in broadcast
+	defer broadcasts.Unsubscribe(context.Background())
 
 	// Set up client state
 	state := ClientState{
@@ -75,7 +75,7 @@ func (c *Chat) WebsocketHandler(w http.ResponseWriter, r *http.Request) {
 			return
 
 		// Push broadcasts to clients
-		case broadcast, more := <-broadcasts:
+		case broadcast, more := <-broadcasts.Ch():
 			if !more {
 				return
 			}
