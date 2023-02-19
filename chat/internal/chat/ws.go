@@ -64,7 +64,7 @@ func (c *Chat) WebsocketHandler(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	// Read the websocket messages into a channel so that we can select{} it
-	cmds := websocketPump(r.Context(), conn)
+	cmds := conn.Pump(r.Context())
 
 	// Aaaand the main event loop
 	for {
@@ -86,9 +86,12 @@ func (c *Chat) WebsocketHandler(w http.ResponseWriter, r *http.Request) {
 			}
 
 		// Listen to client commands
-		case cmd, more := <-cmds:
+		case cmd, more := <-cmds.Ch():
 			if !more {
-				return
+				if err := cmds.Err(); err != nil {
+					log.Printf("chat: websocket decode error: %s", err.Error())
+					return
+				}
 			}
 
 			if DEBUG {

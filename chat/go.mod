@@ -6,7 +6,7 @@ require (
 	github.com/go-chi/chi/v5 v5.0.8
 	github.com/gobwas/ws v1.1.0
 	github.com/irth/broadcast v0.1.1
-	github.com/irth/wsrpc v0.1.0
+	github.com/irth/wsrpc v0.2.0
 	github.com/stretchr/testify v1.8.1
 )
 
