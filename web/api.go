@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -70,8 +69,6 @@ func (a *API) Router() http.Handler {
 	})
 	r.Get("/state", a.State)
 
-	r.Get("/websocket", a.Websocket)
-
 	r.Post("/admission", a.AdmissionWebhook)
 	return r
 }
@@ -84,24 +81,4 @@ type Response[T any] struct {
 	OK       bool   `json:"ok"`
 	Error    string `json:"error,omitempty"`
 	Response T      `json:"response,omitempty"`
-}
-
-// State (GET <api>/state) fetches the up-to-date stream state from OME and
-// returns it to the client.
-func (a *API) State(w http.ResponseWriter, r *http.Request) {
-	state, err := a.fetchState()
-
-	w.Header().Add("Content-Type", "application/json")
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(Response[Empty]{
-			OK:    false,
-			Error: err.Error(),
-		})
-	}
-
-	json.NewEncoder(w).Encode(Response[StreamState]{
-		OK:       true,
-		Response: state,
-	})
 }
