@@ -34,6 +34,14 @@ func (c *Chat) WebsocketHandler(w http.ResponseWriter, r *http.Request) {
 	state := ClientState{
 		ready: false,
 	}
+	defer func() {
+		if state.ready {
+			// means we have a nick, so we gotta let go
+			c.nicksLock.Lock()
+			defer c.nicksLock.Unlock()
+			delete(c.nicks, state.nick)
+		}
+	}()
 
 	for {
 		cmd, err := conn.Decode()
