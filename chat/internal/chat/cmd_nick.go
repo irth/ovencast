@@ -1,6 +1,10 @@
 package chat
 
-import "regexp"
+import (
+	"regexp"
+
+	"github.com/irth/wsrpc"
+)
 
 // TODO: support something more fun than ascii only
 var NickRegex = regexp.MustCompile(`^[a-zA-Z0-9\._-]{3,32}$`)
@@ -9,17 +13,22 @@ func validateNick(n string) bool {
 	return NickRegex.MatchString(n)
 }
 
+type NickRequest struct {
+	Nickname string `json:"nickname"`
+}
+type NickCommand = wsrpc.Command[NickRequest, any]
+
 func (c *Chat) handleNick(state *ClientState, cmd NickCommand) {
 	currentNick := state.nick
-	newNick := cmd.Request
-
-	if newNick == currentNick {
-		cmd.OK(nil)
-		return
-	}
+	newNick := cmd.Request.Nickname
 
 	if !validateNick(newNick) {
 		cmd.Err("nick invalid")
+		return
+	}
+
+	if newNick == currentNick {
+		cmd.OK(nil)
 		return
 	}
 
