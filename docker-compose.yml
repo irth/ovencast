@@ -20,6 +20,7 @@ services:
       - 6213:80
     depends_on:
       - web
+      - chat
       - ome
 
   web:
@@ -27,3 +28,7 @@ services:
     volumes:
       - ./data/web:/data
       - ./web/frontend/dist:/static
+  
+  chat:
+    build: ./chat
+

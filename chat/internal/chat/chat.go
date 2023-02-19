@@ -30,7 +30,7 @@ func NewChat() (*Chat, error) {
 
 func (c *Chat) Handler() http.Handler {
 	r := chi.NewRouter()
-	r.HandleFunc("/ws", c.WebsocketHandler)
+	r.HandleFunc("/chat/ws", c.WebsocketHandler)
 	return r
 }
 
