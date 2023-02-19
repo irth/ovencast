@@ -8,6 +8,7 @@ import "@fontsource/lato";
 import "./index.css";
 
 import App from "./components/App";
+import { StreamStateProvider } from "./components/State";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -15,7 +16,9 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <div>
-      <App />
+      <StreamStateProvider>
+        <App />
+      </StreamStateProvider>
     </div>
   </React.StrictMode>
 );

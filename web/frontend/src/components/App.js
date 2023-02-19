@@ -3,9 +3,12 @@ import "./App.css";
 import Chat from "./Chat";
 import Nav from "./Nav";
 import Player from "./Player";
+import { useStreamState } from "./State";
 import StreamInfo from "./StreamInfo";
 
 export default function App() {
+  const streamState = useStreamState();
+
   return (
     <div className="appLayout">
       <Nav className="nav" brand="OvenCast" />
@@ -20,6 +23,7 @@ export default function App() {
           <div className="streamDescriptionInner">
             <h1>What is OvenCast?</h1>
             <p>
+              {JSON.stringify(streamState)}
               OvenCast is a distribution of OvenMediaEngine preconfigured for
               low-latency self-hosted livestreaming.
             </p>
