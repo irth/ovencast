@@ -23,9 +23,12 @@ func NewChat() (*Chat, error) {
 	}, nil
 }
 
-func (c *Chat) Listen(addr string) error {
+func (c *Chat) Handler() http.Handler {
 	r := chi.NewRouter()
 	r.HandleFunc("/ws", c.WebsocketHandler)
+	return r
+}
 
-	return http.ListenAndServe(addr, r)
+func (c *Chat) Listen(addr string) error {
+	return http.ListenAndServe(addr, c.Handler())
 }
